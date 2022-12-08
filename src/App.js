@@ -6,6 +6,7 @@ function App() {
     const [movies, setMovies] = useState([])
     const [openModal, setOpenModal] = useState(false)
     const [move, setMove] = useState({})
+    const largura = window.screen.width
 
     const getMovies = useCallback(() => {
 
@@ -19,7 +20,6 @@ function App() {
     useEffect(() => {
         getMovies()
     }, [getMovies])
-    console.log(movies)
     
 
   return (
@@ -54,26 +54,48 @@ function App() {
             <DialogTitle><Typography variant='h4'>{move.title}</Typography></DialogTitle>
             <DialogContent>
                 <Grid container spacing={1}>
-                    <Grid item xs={6}>
-                        <Typography variant='h5' style={{marginBottom:'20px'}}>
-                            {move.overview}
-                        </Typography>
-                        <Typography variant='body2'>
-                            Release date of: {move.release_date}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={5}>
-                        <Box
-                        component='img'
-                        height='300px'
-                        src={`https://image.tmdb.org/t/p/w500/${move.backdrop_path}`}
-                        />
-                    </Grid>
+                        {largura < 650 ? (
+                            <>
+                                <Grid item xs={12}>
+                                    <Typography variant='h5' style={{marginBottom:'20px'}}>
+                                        {move.overview}
+                                    </Typography>
+                                    <Typography variant='body2'>
+                                        Release date of: {move.release_date}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Box
+                                        component='img'
+                                        height='300px'
+                                        src={`https://image.tmdb.org/t/p/w500/${move.poster_path}`}
+                                    />    
+                                </Grid>
+                            </>
+                        ) : (
+                            <>
+                                <Grid item xs={6}>
+                                    <Typography variant='h5' style={{marginBottom:'20px'}}>
+                                        {move.overview}
+                                    </Typography>
+                                    <Typography variant='body2'>
+                                        Release date of: {move.release_date}
+                                    </Typography>
+                                </Grid>
+                                <Grid item xs={5}>
+                                    <Box
+                                        component='img'
+                                        height='300px'
+                                        src={`https://image.tmdb.org/t/p/w500/${move.backdrop_path}`}
+                                    />
+                                </Grid>
+                            </>
+                        )}
                 </Grid>
             </DialogContent>
         </Dialog>
     </Grid>
-  );
+  )
 }
 
 export default App;
