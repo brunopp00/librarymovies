@@ -1,4 +1,4 @@
-import { AppBar, Box, Card, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, Grid, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Card, CardContent, CardMedia, Dialog, DialogContent, DialogTitle, Grid, TextField, Toolbar, Typography } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 
@@ -7,15 +7,16 @@ function App() {
     const [openModal, setOpenModal] = useState(false)
     const [move, setMove] = useState({})
     const largura = window.screen.width
+    const [busca, setBusca] = useState('')
+    const moveisFiltrados = busca.length > 0 ? movies.filter(move => move.title.toUpperCase().includes(busca.toUpperCase())) : []
 
     const getMovies = useCallback(() => {
-
         fetch('https://api.themoviedb.org/3/movie/popular?api_key=0f7f734413859ad69f2aee2b915bed16')
         .then(res => res.json())
         .then(data => {
             setMovies(data.results)
         })
-    },[])
+    }, [])
 
     useEffect(() => {
         getMovies()
@@ -24,32 +25,57 @@ function App() {
 
   return (
     <Grid container spacing={1}>
-      <AppBar position='static' sx={{backgroundColor: 'black'}}>
+      <AppBar position='static' sx={{backgroundColor: '#1775A0'}}>
         <Toolbar>
             <Box display='flex' justifyContent='center' width='100vw'>
                 <h1 className='title'>THE MOVIES</h1>
             </Box>
         </Toolbar>
       </AppBar>
-      {movies.map(move => 
-        <Grid item xs={6} lg={2}>
-            <Card onClick={() => {
-                setOpenModal(true)
-                setMove(move)
-                }} key={move.title} className='cardMove'>
-                <CardMedia
-                    component='img'
-                    height='350'
-                    image={`https://image.tmdb.org/t/p/w500/${move.poster_path}`}
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant='h6' align='center' component='div'>
-                            {move.title}
-                        </Typography>
-                    </CardContent>
-            </Card>
-        </Grid>
-        )}
+      <Grid item xs={12}>
+        <TextField style={{width:'90%', margin:'0 10px'}} label='Busca' variant='outlined' margin='dense' value={busca} onChange={e => setBusca(e.target.value)}/>
+      </Grid>
+      {busca.length > 0 ? (
+        moveisFiltrados.map(move => 
+            <Grid item xs={6} lg={2}>
+                <Card onClick={() => {
+                    setOpenModal(true)
+                    setMove(move)
+                    }} key={move.title} className='cardMove'>
+                    <CardMedia
+                        component='img'
+                        height='350'
+                        image={`https://image.tmdb.org/t/p/w500/${move.poster_path}`}
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant='h6' align='center' component='div'>
+                                {move.title}
+                            </Typography>
+                        </CardContent>
+                </Card>
+            </Grid>
+            )
+      ) : (
+        movies.map(move => 
+            <Grid item xs={6} lg={2}>
+                <Card onClick={() => {
+                    setOpenModal(true)
+                    setMove(move)
+                    }} key={move.title} className='cardMove'>
+                    <CardMedia
+                        component='img'
+                        height='350'
+                        image={`https://image.tmdb.org/t/p/w500/${move.poster_path}`}
+                        />
+                        <CardContent>
+                            <Typography gutterBottom variant='h6' align='center' component='div'>
+                                {move.title}
+                            </Typography>
+                        </CardContent>
+                </Card>
+            </Grid>
+            )
+      )}
         <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth='lg'fullWidth>
             <DialogTitle><Typography variant='h4'>{move.title}</Typography></DialogTitle>
             <DialogContent>
