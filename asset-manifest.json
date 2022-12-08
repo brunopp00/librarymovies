@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/librarymovies/static/css/main.6461cd03.css",
-    "main.js": "/librarymovies/static/js/main.feb4c4a8.js",
+    "main.js": "/librarymovies/static/js/main.e995189d.js",
     "index.html": "/librarymovies/index.html",
     "main.6461cd03.css.map": "/librarymovies/static/css/main.6461cd03.css.map",
-    "main.feb4c4a8.js.map": "/librarymovies/static/js/main.feb4c4a8.js.map"
+    "main.e995189d.js.map": "/librarymovies/static/js/main.e995189d.js.map"
   },
   "entrypoints": [
     "static/css/main.6461cd03.css",
-    "static/js/main.feb4c4a8.js"
+    "static/js/main.e995189d.js"
   ]
 }
